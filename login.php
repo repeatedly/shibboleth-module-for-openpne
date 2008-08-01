@@ -1,6 +1,6 @@
 <?php
 
-  //require_once 'OpenPNE/Shibboleth.php';
+require_once 'OpenPNE/Shibboleth.php';
 
 class shibboleth_do_login extends OpenPNE_Action
 {
@@ -23,14 +23,17 @@ class shibboleth_do_login extends OpenPNE_Action
      */
     public function execute($requests)
     {
-        $this->_login_params = $requests['login_params'];
         $auth_config = get_auth_config();
         $auth = new OpenPNE_Shibboleth($auth_config['storage'], $auth_config['options']);
         $this->_auth =& $auth;
-        $auth->setExpire($GLOBALS['OpenPNE']['common']['session_lifetime']);
-        $auth->setIdle($GLOBALS['OpenPNE']['common']['session_idletime']);
+        $this->_login_params = $requests['login_params'];
 
+        $auth->setExpire($GLOBALS['OpenPNE']['common']['session_lifetime']);
+        $auth->setIdle(  $GLOBALS['OpenPNE']['common']['session_idletime']);
         $auth->logout();
+
+        if (!$auth->login($requests['is_save'], true))
+            $this->_fail_login();
 
         if (LOGIN_CHECK_ENABLE) {
             include_once 'OpenPNE/LoginChecker.php';
@@ -40,22 +43,16 @@ class shibboleth_do_login extends OpenPNE_Action
                 'reject_time' => LOGIN_REJECT_TIME,
             );
             $this->_lc =& new OpenPNE_LoginChecker($options);
-        }
-
-        if (!$auth->login($requests['is_save'], true))
-            $this->_fail_login();
-
+        }        
         if (LOGIN_CHECK_ENABLE && $this->_lc->is_rejected())
             $this->_fail_login();
 
         $c_member_id = db_member_c_member_id4username_encrypted($auth->getUsername(), false);
-        /* IS_SLAVEPNE is false on Shibboleth.
+        // IS_SLAVEPNE is false on Shibboleth.
         if (IS_SLAVEPNE && !$c_member_id)
             $c_member_id = db_member_create_member($_POST['username']);
-         */
         if (!$c_member_id)
             $this->_fail_login();
-
         db_api_update_token($c_member_id);
 
         $url = OPENPNE_URL;
@@ -65,6 +62,9 @@ class shibboleth_do_login extends OpenPNE_Action
         client_redirect_absolute($url);
     }
 
+    /**
+     * Redirect the client to the designated page if authentication failed.
+     */
     protected function _fail_login()
     {
         if (LOGIN_CHECK_ENABLE)
