@@ -19,7 +19,7 @@ echo "$PNE_PUBLIC_PATH"
 echo ""
 
 # Error checks
-echo "Error checking..."
+echo "Checking..."
 
 if [ -z "$PNE_PATH" ]; then
     echo "Error : ${PNE_PATH} is empty!!"
@@ -42,25 +42,41 @@ echo ""
 
 PNE_SHIB_PATH=${PNE_PATH}/webapp/modules/shibboleth/
 PNE_PUBLIC_SHIB_PATH=${PNE_PUBLIC_PATH}/shibboleth/
+PNE_PAGE_FILE=${PNE_PATH}/webapp/modules/pc/templates/o_login.tpl
+
+function remove_cache()
+{
+    CACHE=`find ${PNE_PATH}/var/templates_c/ -name *o_login.tpl.php`
+    rm -f $CACHE
+}
 
 
 # ./install.sh clean
 if [ "$1" == "clean" ]; then
-    #rm -rf "${PNE_PUBLIC_SHIB_PATH}/index.php"
-    #rm -rf "${PNE_SHIB_PATH}/do/login.php"
-    #rm -rf "${PNE_PATH}/webapp/lib/OpenPNE/Shibboleth.php"
     for file in "${PNE_PUBLIC_SHIB_PATH}" "${PNE_SHIB_PATH}" "${PNE_PATH}/webapp/lib/OpenPNE/Shibboleth.php"
     do
         rm -rf "$file"
     done
+    cp -f o_login.tpl.orig "${PNE_PAGE_FILE}"
+    remove_cache
 
-    echo "Clean complete!"
+    echo "Clean done!"
+    exit 0
+fi
+
+# ./install template 
+# template revert
+if [ "$1" == "template" ]; then
+    cp -f o_login.tpl.orig $PNE_PAGE_FILE
+    remove_cache
+
+    echo "Template revert doen!"
     exit 0
 fi
 
 
 # Make directories
-echo "Directories making..."
+echo "Making directories..."
 
 rm -rf "$PNE_SHIB_PATH"
 mkdir -p "${PNE_SHIB_PATH}/do/"
@@ -70,11 +86,18 @@ mkdir -p "$PNE_PUBLIC_SHIB_PATH"
 
 
 # Copy files
-echo "Copy files..."
+echo "Copying files..."
 
 cp index.php "${PNE_PUBLIC_SHIB_PATH}/"
 cp login.php "${PNE_SHIB_PATH}/do/"
 cp Shibboleth.php "${PNE_PATH}/webapp/lib/OpenPNE/"
 
-echo "Install complete!"
+# Replace template
+echo "Replace template"
+
+cp -f o_login.tpl $PNE_PAGE_FILE
+remove_cache
+
+
+echo "Install done!"
 exit 0
