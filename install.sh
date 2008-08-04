@@ -71,7 +71,7 @@ if [ "$1" == "template" ]; then
     cp -f "${EXT_TEMPLATE_DIR}/o_login.tpl.orig" $PNE_PAGE_FILE
     remove_cache
 
-    echo "Template revert doen!"
+    echo "Template revert done!"
     exit 0
 fi
 
@@ -90,6 +90,7 @@ mkdir -p "${PNE_PUBLIC_SHIB_PATH}"
 echo "Copying files..."
 
 cp "${EXT_LIB_DIR}/index.php" "${PNE_PUBLIC_SHIB_PATH}/"
+cp "${EXT_LIB_DIR}/init.inc"  "${PNE_SHIB_PATH}"
 cp "${EXT_LIB_DIR}/login.php" "${PNE_SHIB_PATH}/do/"
 cp "${EXT_LIB_DIR}/Shibboleth.php" "${PNE_PATH}/webapp/lib/OpenPNE/"
 

@@ -1,7 +1,5 @@
 <?php
 
-require_once 'OpenPNE/Auth.php';
-
 class OpenPNE_Shibboleth extends OpenPNE_Auth
 {
     /**
@@ -26,17 +24,20 @@ class OpenPNE_Shibboleth extends OpenPNE_Auth
     {
         $this->auth =& $this->factory(true);
 
-        if (!$this->_adjust_config())
+        // Login fail if essential attribute is empty.
+        $address = $this->get_attribute();
+        if (!$address)
             return false;
-        
+
         if (!IS_SLAVEPNE) {  // IS_SLAVEPNE is false on Shibboleth
             if ($is_encrypt_username)
-                $this->auth->post[$this->auth->_postUsername] =
-                    t_encrypt($this->auth->post[$this->auth->_postUsername]);
+                $this->auth->post[$this->auth->_postUsername] = t_encrypt($address);
         }
 
-        $this->auth->setAuth($this->auth->post[$this->auth->_postUsername]);
-        if ($this->auth->getAuth()) {
+        // Is $address existing?
+        if (db_member_c_member_id4pc_address($address)) {
+            $this->auth->setAuth($this->auth->post[$this->auth->_postUsername]);
+
             if (OPENPNE_SESSION_CHECK_URL)
                 $this->auth->setAuthData('OPENPNE_URL', OPENPNE_URL);
 
@@ -47,40 +48,69 @@ class OpenPNE_Shibboleth extends OpenPNE_Auth
             else
                 $expire = 0;
 
-            /* Shibboleth don't consider the ktai. */
-            if (!$this->is_ktai)
-                setcookie(session_name(), session_id(), $expire, $this->cookie_path);
-            $this->_adjust_cookie();
+            // Shibboleth don't consider the ktai, because $this->ktai is false.
+            setcookie(session_name(), session_id(), $expire, $this->cookie_path);
+            $this->adjust_cookie();
 
             return true;
         } else {
+            if (OPENPNE_SHIB_AUTO_REGIST)
+                $this->register_user($address);
             return false;
         }
     }
 
     /**
-     * Configurate a Shibboleth variable for PEAR::Auth.
+     * Prepare regiter and redirect to register page.
+     * This method is called if OPENPNE_SHIB_AUTO_REGIST is true.
+     *
+     * @access protected
+     */
+    protected function register_user($address)
+    {
+        $c_member_id_invite = 1;
+
+        // Do $address register?
+        if (!db_member_is_limit_domain4mail_address($address)) {
+            $msg = "$address is unregistrable address.";
+            $p   = array('msg' => $msg);
+            openpne_redirect('pc', 'page_o_public_invite', $p);
+        }
+
+        $session = create_hash();
+
+        // Do $address exist prepare register?
+        if (db_member_c_member_pre4pc_address($address))
+            db_member_update_c_invite($c_member_id_invite, $address, '', $session);
+        else
+            db_member_insert_c_invite($c_member_id_invite, $address, '', $session);
+
+        setcookie(session_name(), '', time() - 3600, ini_get('session.cookie_path'));
+
+        openpne_redirect('pc', 'page_o_ri', array('sid' => $session));
+    }
+
+    /**
+     * Get a Shibboleth variable for Login.
      * Return true if Essential attibute exist.
      *
      * @access protected
      * @return true/false
      */
-    protected function _adjust_config()
+    protected function get_attribute()
     {
-        if (empty($_SERVER[self::$MAP[$this->auth->_postUsername]]))
+        $address = $_SERVER[self::$MAP[$this->auth->_postUsername]];
+        if (empty($address))
             return false;
-
-        $this->auth->post[$this->auth->_postUsername] =
-            $_SERVER[self::$MAP[$this->auth->_postUsername]];
-        return true;
+        return $address;
     }
 
     /**
-     * Adjust cookie path of 'authchallenge' path.
+     * Adjust cookie path of 'authchallenge'.
      *
      * @access protected
      */
-    protected function _adjust_cookie()
+    protected function adjust_cookie()
     {
         setcookie('authchallenge', '', time() - 3600);
         setcookie('authchallenge', $this->auth->session['challengecookie'], 0, $this->cookie_path);
