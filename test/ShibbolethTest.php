@@ -2,7 +2,7 @@
 
 require_once 'PHPUnit/Framework.php';
 
-require_once '../Shibboleth.php';
+require_once 'OpenPNE/Shibboleth.php';
 
 class ShibbolethTest extends PHPUnit_Framework_TestCase
 {
@@ -10,7 +10,6 @@ class ShibbolethTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        //$_SERVER['HTTP_SHIB_INETORGPERSON_MAIL'] = 'm_nakagawa@is.tokushima-u.ac.jp';
         $config = get_auth_config();
         $this->shib = new OpenPNE_Shibboleth($config['storage'], $config['options']);
     }
@@ -20,7 +19,7 @@ class ShibbolethTest extends PHPUnit_Framework_TestCase
      */
     public function login()
     {
-        $this->assertTrue($this->shib->login(true, true));
+        $this->assertFalse($this->shib->login(false, true));
     }
 }
 

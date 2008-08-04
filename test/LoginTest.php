@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPUnit/Framework.php';
-require_once '../login.php';
+require_once OPENPNE_WEBAPP_DIR . '/modules/shibboleth/do/login.php';
 
 class LoginTest extends PHPUnit_Framework_TestCase
 {
