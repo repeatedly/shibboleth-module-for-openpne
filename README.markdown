@@ -26,10 +26,6 @@ This module conduct Shibboleth authentication on OpenPNE.
 
 ### Option
 
-* only
-
-  Use Shibboleth only o_login.tpl.
-
 * clean
 
   Uninstall this module.
@@ -37,6 +33,11 @@ This module conduct Shibboleth authentication on OpenPNE.
 * revert
 
   Replace shibbolized o_login.tpl to original o_login.tpl.
+
+* only(Unpopulated)
+
+  Use Shibboleth only o_login.tpl.
+  Unpopulated reason begin that Prepare of login page images is a bother.
 
 # Setting
 

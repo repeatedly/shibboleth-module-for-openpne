@@ -58,7 +58,7 @@ if [ "$1" == "clean" ]; then
     do
         rm -rf "${file}"
     done
-    cp -f "${EXT_TEMPLATE_DIR}/o_login.tpl.orig" "${PNE_PAGE_FILE}"
+    cp -f "${EXT_TEMPLATE_DIR}/o_login.orig.tpl" "${PNE_PAGE_FILE}"
     remove_cache
 
     echo "Clean done!"
@@ -68,7 +68,7 @@ fi
 # ./install template 
 # template revert
 if [ "$1" == "template" ]; then
-    cp -f "${EXT_TEMPLATE_DIR}/o_login.tpl.orig" $PNE_PAGE_FILE
+    cp -f "${EXT_TEMPLATE_DIR}/o_login.orig.tpl" $PNE_PAGE_FILE
     remove_cache
 
     echo "Template revert done!"
@@ -97,6 +97,12 @@ cp "${EXT_LIB_DIR}/Shibboleth.php" "${PNE_PATH}/webapp/lib/OpenPNE/"
 # Replace template
 echo "Replace template"
 
+# Unpopulated
+#if [ "$1" == "only" ]; then
+#    cp -f "${EXT_TEMPLATE_DIR}/o_login.only.tpl" $PNE_PAGE_FILE
+#else
+#    cp -f "${EXT_TEMPLATE_DIR}/o_login.tpl" $PNE_PAGE_FILE
+#fi
 cp -f "${EXT_TEMPLATE_DIR}/o_login.tpl" $PNE_PAGE_FILE
 remove_cache
 
