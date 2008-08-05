@@ -15,7 +15,9 @@ This module conduct Shibboleth authentication on OpenPNE.
 * via github on the web
 
   The way of installation using some Web browser.
+
   Access to http://github.com/tama/shibboleth-module-for-openpne/tree/master .
+
   You download the zip or tar, and decompress donwloaded file.
 
 ## module install
@@ -37,14 +39,17 @@ This module conduct Shibboleth authentication on OpenPNE.
 * only(Unpopulated)
 
   Use Shibboleth only o_login.tpl.
+
   Unpopulated reason begin that Prepare of login page images is a bother.
 
 # Setting
 
 ## init.inc
 
-  This file define OPENPNE_SHIB_AUTO_REGIST constant.
+  This file define OPENPNE\_SHIB\_AUTO\_REGIST constant.
+
   If true, unregistered user is registered automatically.
+
   If false, unregistered user fail login.
 
 # License
