@@ -52,60 +52,59 @@ function remove_cache()
 }
 
 
-# ./install.sh clean
-if [ "$1" == "clean" ]; then
-    for file in "${PNE_PUBLIC_SHIB_PATH}" "${PNE_SHIB_PATH}" "${PNE_PATH}/webapp/lib/OpenPNE/Shibboleth.php"
-    do
-        rm -rf "${file}"
-    done
-    cp -f "${EXT_TEMPLATE_DIR}/o_login.orig.tpl" "${PNE_PAGE_FILE}"
-    remove_cache
+case "$1" in
+    ''|only)
+        # Make directories
+        echo "Making directories..."
 
-    echo "Clean done!"
-    exit 0
-fi
+        rm -rf "${PNE_SHIB_PATH}"
+        mkdir -p "${PNE_SHIB_PATH}/do/"
 
-# ./install template 
-# template revert
-if [ "$1" == "template" ]; then
-    cp -f "${EXT_TEMPLATE_DIR}/o_login.orig.tpl" $PNE_PAGE_FILE
-    remove_cache
+        rm -rf "${PNE_PUBLIC_SHIB_PATH}"
+        mkdir -p "${PNE_PUBLIC_SHIB_PATH}"
 
-    echo "Template revert done!"
-    exit 0
-fi
+        # Copy files
+        echo "Copying files..."
+        
+        cp "${EXT_LIB_DIR}/index.php" "${PNE_PUBLIC_SHIB_PATH}/"
+        cp "${EXT_LIB_DIR}/init.inc"  "${PNE_SHIB_PATH}"
+        cp "${EXT_LIB_DIR}/login.php" "${PNE_SHIB_PATH}/do/"
+        cp "${EXT_LIB_DIR}/Shibboleth.php" "${PNE_PATH}/webapp/lib/OpenPNE/"
 
+        # Replace template
+        echo "Replace template"
 
-# Make directories
-echo "Making directories..."
+        # Unpopulated
+        #if [ "$1" == "only" ]; then
+        #    cp -f "${EXT_TEMPLATE_DIR}/o_login.only.tpl" $PNE_PAGE_FILE
+        #else
+        #    cp -f "${EXT_TEMPLATE_DIR}/o_login.tpl" $PNE_PAGE_FILE
+        #fi
+        cp -f "${EXT_TEMPLATE_DIR}/o_login.tpl" $PNE_PAGE_FILE
+        remove_cache
 
-rm -rf "${PNE_SHIB_PATH}"
-mkdir -p "${PNE_SHIB_PATH}/do/"
+        echo "Install done!"
+        ;;
+    clean)
+        for file in "${PNE_PUBLIC_SHIB_PATH}" "${PNE_SHIB_PATH}" "${PNE_PATH}/webapp/lib/OpenPNE/Shibboleth.php"
+        do
+            rm -rf "${file}"
+        done
+        cp -f "${EXT_TEMPLATE_DIR}/o_login.orig.tpl" "${PNE_PAGE_FILE}"
+        remove_cache
 
-rm -rf "${PNE_PUBLIC_SHIB_PATH}"
-mkdir -p "${PNE_PUBLIC_SHIB_PATH}"
+        echo "Clean done!"
+        ;;
+    template)
+        cp -f "${EXT_TEMPLATE_DIR}/o_login.orig.tpl" $PNE_PAGE_FILE
+        remove_cache
 
+        echo "Template revert done!"
+        ;;
+    *)
+        echo "Usage: $0 {clean|template|only}"
+        exit 1
+        ;;
+esac
 
-# Copy files
-echo "Copying files..."
-
-cp "${EXT_LIB_DIR}/index.php" "${PNE_PUBLIC_SHIB_PATH}/"
-cp "${EXT_LIB_DIR}/init.inc"  "${PNE_SHIB_PATH}"
-cp "${EXT_LIB_DIR}/login.php" "${PNE_SHIB_PATH}/do/"
-cp "${EXT_LIB_DIR}/Shibboleth.php" "${PNE_PATH}/webapp/lib/OpenPNE/"
-
-# Replace template
-echo "Replace template"
-
-# Unpopulated
-#if [ "$1" == "only" ]; then
-#    cp -f "${EXT_TEMPLATE_DIR}/o_login.only.tpl" $PNE_PAGE_FILE
-#else
-#    cp -f "${EXT_TEMPLATE_DIR}/o_login.tpl" $PNE_PAGE_FILE
-#fi
-cp -f "${EXT_TEMPLATE_DIR}/o_login.tpl" $PNE_PAGE_FILE
-remove_cache
-
-
-echo "Install done!"
 exit 0

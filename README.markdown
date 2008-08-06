@@ -2,6 +2,11 @@
 
 This module conduct Shibboleth authentication on OpenPNE. 
 
+# Requirements
+
+* OpenPNE 2.10.x
+* PHP     5 later
+
 # Installation
 
 ## Get source
@@ -46,11 +51,23 @@ This module conduct Shibboleth authentication on OpenPNE.
 
 ## init.inc
 
-  This file define OPENPNE\_SHIB\_AUTO\_REGIST constant.
+* $GLOBALS['OpenPNE']['shibboleth']['essential']
+
+  Essential attribute mapping using Shibboleth.
+
+  e.g.) array('username' => 'HTTP_SHIB_INETORGPERSON_MAIL');
+
+* OPENPNE\_SHIB\_AUTO\_REGIST
 
   If true, unregistered user is registered automatically.
 
   If false, unregistered user fail login.
+
+* OPENPNE\_SHIB\_INVITE\_ID
+
+  Set a user ID.
+
+  This value is used to register user as invite user ID.
 
 # License
 
