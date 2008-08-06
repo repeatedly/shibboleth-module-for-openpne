@@ -2,13 +2,6 @@
 
 class OpenPNE_Shibboleth extends OpenPNE_Auth
 {
-    /**
-     * @acccess protected
-     * @var array Mapping table regarding association between Attribute and Environment
-     */
-    protected static $MAP = array('username' => 'HTTP_SHIB_INETORGPERSON_MAIL');
-
-
     public function __construct($storageDriver = 'DB', $options = '')
     {
         parent::__construct($storageDriver, $options, false);
@@ -24,8 +17,9 @@ class OpenPNE_Shibboleth extends OpenPNE_Auth
     {
         $this->auth =& $this->factory(true);
 
-        // Login fail if essential attribute is empty.
         $address = $this->get_attribute();
+
+        // Login fail if essential attribute is empty.
         if (!$address)
             return false;
 
@@ -68,7 +62,7 @@ class OpenPNE_Shibboleth extends OpenPNE_Auth
      */
     protected function register_user($address)
     {
-        $c_member_id_invite = 1;
+        $c_member_id_invite = OPENPNE_SHIB_INVITE_ID;
 
         // Do $address register?
         if (!db_member_is_limit_domain4mail_address($address)) {
@@ -99,7 +93,8 @@ class OpenPNE_Shibboleth extends OpenPNE_Auth
      */
     protected function get_attribute()
     {
-        $address = $_SERVER[self::$MAP[$this->auth->_postUsername]];
+        $mapping = $GLOBALS['OpenPNE']['shibboleth']['essential'];
+        $address = $_SERVER[$mapping[$this->auth->_postUsername]];
         if (empty($address))
             return false;
         return $address;
