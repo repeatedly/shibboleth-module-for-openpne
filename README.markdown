@@ -15,7 +15,7 @@ This module conduct Shibboleth authentication on OpenPNE.
 
   The recommended way of installation. You pull from the github repository.
 
-      $ git clone git://github.com/tama/
+      $ git clone git://github.com/tama/shibboleth-module-for-openpne.git
 
 * via github on the web
 
@@ -37,13 +37,13 @@ This module conduct Shibboleth authentication on OpenPNE.
 
   Uninstall this module.
 
-* revert
+* template
 
-  Replace shibbolized o_login.tpl to original o_login.tpl.
+  Replace shibbolized o\_login.tpl to original o\_login.tpl.
 
 * only(Unpopulated)
 
-  Use Shibboleth only o_login.tpl.
+  Use Shibboleth only o\_login.tpl.
 
   Unpopulated reason begin that Prepare of login page images is a bother.
 
@@ -55,7 +55,7 @@ This module conduct Shibboleth authentication on OpenPNE.
 
   Essential attribute mapping using Shibboleth.
 
-  e.g.) array('username' => 'HTTP_SHIB_INETORGPERSON_MAIL');
+  e.g.) array('username' => 'HTTP\_SHIB\_INETORGPERSON\_MAIL');
 
 * OPENPNE\_SHIB\_AUTO\_REGIST
 
