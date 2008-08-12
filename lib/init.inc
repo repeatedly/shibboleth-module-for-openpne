@@ -4,7 +4,7 @@
  * Essential attribute mapping using Shibboleth.
  */
 $GLOBALS['OpenPNE']['shibboleth']['essential'] =
-      array('username' => 'HTTP_SHIB_INETORGPERSON_MAIL');
+      array('username' => 'mail');
 
 /**
  * If register a unregistered user automatically, set true.
