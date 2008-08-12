@@ -49,6 +49,10 @@ This module conduct Shibboleth authentication on OpenPNE.
 
 # Setting
 
+## OPENPNE\_DIR/config.inc.php
+
+OPENPNE\_SSL\_URL set a appropriate value, because Shibboleth use the SSL.
+
 ## init.inc
 
 * $GLOBALS['OpenPNE']['shibboleth']['essential']
