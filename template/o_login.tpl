@@ -33,7 +33,7 @@
 ({/if})
 
 <div class="msg lh_130"><br>
-<a style="font-size:1.5em; font-weight:bold; font-family:monospace;" href="({$smarty.const.OPENPNE_SSL_URL})shibboleth/?({$requests.login_params})">Shibbolethをつかう</a>
+<a style="font-size:1.5em; font-weight:bold; font-family:monospace;" href="({$smarty.const.OPENPNE_SSL_URL})shibboleth/?({$requests.login_params})">Shibbolethで認証</a>
 ({if $SSL_SELECT_URL})
 <br><a href="({$SSL_SELECT_URL})">({if $HTTPS})標準(http)({else})SSL(https)({/if})はこちら</a>
 ({/if})

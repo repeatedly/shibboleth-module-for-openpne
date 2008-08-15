@@ -2,7 +2,7 @@
 
 <div id="container_login"><div class="w_screen">
 
-<!-- <img src="({t_img_url_skin filename=skin_login})" class="bg"> -->
+<img src="({t_img_url_skin filename=skin_login})" class="bg">
 
 ({if $top_banner_html_before || $top_banner_html_after})
 <div class="banner">
@@ -22,8 +22,18 @@
 </div>
 ({/if})
 
+({t_form _attr='name="login" id="login"' m=pc a=do_o_login})
+<input type="hidden" name="login_params" value="({$requests.login_params})">
+<input type="text" tabindex="1" name="username" id="username" class="text">
+<input type="password" tabindex="2" name="password" id="password" class="text">
+<input type="image" tabindex="4" name="submit" src="./skin/dummy.gif" border="0" id="button_login" alt="ログイン">
+
+({if !$IS_CLOSED_SNS && (($smarty.const.OPENPNE_REGIST_FROM) & ($smarty.const.OPENPNE_REGIST_FROM_PC))})
+<a href="({t_url m=pc a=page_o_public_invite})" id="button_new_regist"><img src="./skin/dummy.gif" alt="新規登録"></a>
+({/if})
+
 <div class="msg lh_130"><br>
-<a style="font-size:1.5em; font-weight:bold; font-family:monospace;" href="({$smarty.const.OPENPNE_SSL_URL})shibboleth/({$requests.login_params})">Shibbolethをつかう</a>
+<a style="font-size:1.5em; font-weight:bold; font-family:monospace;" href="({$smarty.const.OPENPNE_SSL_URL})shibboleth/?({$requests.login_params})">Shibbolethで認証</a>
 ({if $SSL_SELECT_URL})
 <br><a href="({$SSL_SELECT_URL})">({if $HTTPS})標準(http)({else})SSL(https)({/if})はこちら</a>
 ({/if})
