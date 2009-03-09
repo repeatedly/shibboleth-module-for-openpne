@@ -9,7 +9,7 @@ class shibboleth_do_login extends OpenPNE_Action
     protected $_login_params;
 
     /**
-     * measure for SSL
+     * Measure for SSL
      *
      * @return false
      */
@@ -19,7 +19,7 @@ class shibboleth_do_login extends OpenPNE_Action
     }
 
     /**
-     * Exceute login using OpenPNE_Shibboleth
+     * Exceutes login using OpenPNE_Shibboleth
      */
     public function execute($requests)
     {
@@ -63,7 +63,7 @@ class shibboleth_do_login extends OpenPNE_Action
     }
 
     /**
-     * Redirect the client to the designated page if authentication failed.
+     * Redirects the client to the designated page if authentication failed.
      */
     protected function _fail_login()
     {

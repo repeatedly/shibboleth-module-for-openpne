@@ -4,7 +4,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
 
 // openpne_dir is config.inc.php directory.
 $current_dir = getcwd();
-$openpne_dir = '/home/tama/OpenPNE/public_html/';
+$openpne_dir = '/path/to/OpenPNE/public_html/';
 
 // Configuration from OpenPNE
 chdir($openpne_dir);

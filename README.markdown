@@ -2,7 +2,7 @@
 
 This module conduct Shibboleth authentication on OpenPNE. 
 
-# Requirements
+# Environment
 
 * OpenPNE 2.10.x
 * PHP     5 later
@@ -25,7 +25,7 @@ This module conduct Shibboleth authentication on OpenPNE.
 
   You download the zip or tar, and decompress donwloaded file.
 
-## module install
+## Install module
 
   Run the install.sh.
 
@@ -47,7 +47,7 @@ This module conduct Shibboleth authentication on OpenPNE.
 
   Unpopulated reason begin that Prepare of login page images is a bother.
 
-# Setting
+# Configration
 
 ## OPENPNE\_DIR/config.inc.php
 
@@ -65,7 +65,7 @@ OPENPNE\_SSL\_URL set a appropriate value, because Shibboleth use the SSL.
 
   If true, unregistered user is registered automatically.
 
-  If false, unregistered user fail login.
+  If false, unregistered user fails login.
 
 * OPENPNE\_SHIB\_INVITE\_ID
 
@@ -73,6 +73,14 @@ OPENPNE\_SSL\_URL set a appropriate value, because Shibboleth use the SSL.
 
   This value is used to register user as invite user ID.
 
-# License
+# TODO
 
-  suspension
+* Support other version(2.12, 3, etc...)
+* Add other authentication root(e.g. pass through the user registration)
+* Improve the performance
+
+# Copyright
+
+    Copyright (c) 2008-2009 Masahiro Nakagawa
+
+This library is released under the PHP License, version 3.01.
