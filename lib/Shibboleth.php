@@ -85,8 +85,8 @@ class OpenPNE_Shibboleth extends OpenPNE_Auth
     }
 
     /**
-     * Gets a Shibboleth variable for login.
-     * Returns true if Essential attibute exist.
+     * Get a Shibboleth variable for login.
+     * Return true if Essential attibute exist.
      *
      * @access protected
      * @return true/false
@@ -101,7 +101,7 @@ class OpenPNE_Shibboleth extends OpenPNE_Auth
     }
 
     /**
-     * Adjusts cookie path of 'authchallenge'.
+     * Adjust cookie path of 'authchallenge'.
      *
      * @access protected
      */

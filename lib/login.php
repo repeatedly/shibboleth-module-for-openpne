@@ -19,7 +19,7 @@ class shibboleth_do_login extends OpenPNE_Action
     }
 
     /**
-     * Exceutes login using OpenPNE_Shibboleth
+     * Exceute login using OpenPNE_Shibboleth
      */
     public function execute($requests)
     {
@@ -63,7 +63,7 @@ class shibboleth_do_login extends OpenPNE_Action
     }
 
     /**
-     * Redirects the client to the designated page if authentication failed.
+     * Redirect the client to the designated page if authentication failed.
      */
     protected function _fail_login()
     {

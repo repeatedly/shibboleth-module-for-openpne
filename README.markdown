@@ -69,8 +69,6 @@ OPENPNE\_SSL\_URL set a appropriate value, because Shibboleth use the SSL.
 
 * OPENPNE\_SHIB\_INVITE\_ID
 
-  Set a user ID.
-
   This value is used to register user as invite user ID.
 
 # TODO
