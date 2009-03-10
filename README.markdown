@@ -15,13 +15,13 @@ This module conduct Shibboleth authentication on OpenPNE.
 
   The recommended way of installation. You pull from the github repository.
 
-      $ git clone git://github.com/tama/shibboleth-module-for-openpne.git
+    $ git clone git://github.com/repeatedly/shibboleth-module-for-openpne.git
 
 * via github on the web
 
   The way of installation using some Web browser.
 
-  Access to http://github.com/tama/shibboleth-module-for-openpne/tree/master .
+  Access to http://github.com/repeatedly/shibboleth-module-for-openpne/tree/master .
 
   You download the zip or tar, and decompress donwloaded file.
 
@@ -29,7 +29,7 @@ This module conduct Shibboleth authentication on OpenPNE.
 
   Run the install.sh.
 
-      $  ./install.sh [option]
+    $  ./install.sh [option]
 
 ### Option
 
